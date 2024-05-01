@@ -4,6 +4,7 @@ import asyncio
 import yt_dlp 
 import warnings
 import eyed3
+from eyed3.id3.frames import ImageFrame
 import requests
 import urllib
 import os
@@ -61,7 +62,8 @@ def edit_metadata(audio):
     audiofile = eyed3.load(audio)
     audiofile.tag.artist = songinfo["artist"]
     audiofile.tag.title = songinfo["title"]
-    audiofile.tag.images.set(type_=3, img_data=img_data, mime_type="images/jpeg", description=u"Cover art", img_url= u""+songinfo["img"])
+    #audiofile.tag.images.set(type_=3, img_data=img_data, mime_type="images/jpeg", description=u"Cover art", img_url= u""+songinfo["img"])
+    audiofile.tag.images.set(ImageFrame.FRONT_COVER, img_data, 'image/jpeg')
 
     #renaming the file
     #os.rename(audio, f'{songinfo["title"]}.mp3')
